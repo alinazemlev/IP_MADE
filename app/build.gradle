@@ -46,6 +46,8 @@ dependencies {
     implementation "com.android.support:exifinterface:+"
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'org.tensorflow:tensorflow-android:+'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:+'
+    implementation 'org.tensorflow:tensorflow-lite-support:+'
     implementation project(':opencv')
     testImplementation 'junit:junit:4.12'
 

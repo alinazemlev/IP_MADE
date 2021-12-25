@@ -65,7 +65,10 @@ public class TensorFlowImageFeatureExtractor {
         //Log.i(TAG,"1!!!!!!!!!!!!!!!!!!!!!!!!! start feature extraction");
         // Preprocess the image data from 0-255 int to normalized float based
         // on the provided parameters.
-        bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        int width = bitmap.getWidth();
+        int heigth = bitmap.getHeight();
+        bitmap.getPixels(intValues, 0, width,
+                0, 0, width, heigth);
         for (int i = 0; i < intValues.length; ++i) {
             final int val = intValues[i];
             //'RGB'->'BGR'

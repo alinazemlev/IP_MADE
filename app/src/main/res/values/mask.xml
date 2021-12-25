@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mask">
+        <item>WithMask</item>
+        <item>WithoutMask</item>
+    </string-array>
+</resources>

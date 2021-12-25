@@ -17,7 +17,7 @@ public class TensoflowWrapper {
     private static final String MODEL_FILE = "file:///android_asset/age_gender_tf2_new-01-0.14-0.92.pb";
     private TensorFlowImageFeatureExtractor featureExtractor=null;
     private Executor executor = Executors.newSingleThreadExecutor();
-    public ArrayList<String> res;
+    public String res;
 
     public int getInputSize(){return INPUT_SIZE;};
 
@@ -72,12 +72,11 @@ public class TensoflowWrapper {
         for(int j=0;j<max_index;++j) {
             age+=(indices.get(j)+0.5)*probabs[j]/sum;
         }
-        res.clear();
+
         int a = (int) Math.round(age);
-        res.add(String.valueOf(a));
-        //gender
         float gender=cnn_outputs[2][0];
-        res.add(gender>=0.6?" male":" female");
+        String gen = gender>=0.6?" male":" female";
+        res = "Gender: "+ gen + " Age: "+ String.valueOf(a);
     }
 
 }

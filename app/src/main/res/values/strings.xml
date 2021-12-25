@@ -1,15 +1,9 @@
 <resources>
-    <string name="app_name">ImageProcessing</string>
+    <string name="app_name">FaceRecognition</string>
     <string name="action_OpenGallery">Open Image File</string>
-    <string name="action_GrayScale">To grayscale</string>
-    <string name="action_Binary">To binary</string>
-    <string name="action_EqualizeHisto">Equalize Histogram</string>
-    <string name="action_Gamma">Gamma correction</string>
-    <string name="action_Contrast">Contrast enhancement</string>
-    <string name="action_blur">Gaussian blur</string>
-    <string name="action_fft">Fourier Transform</string>
-    <string name="action_fft_filter">FFT Filtering</string>
-    <string name="action_Median">Median filter</string>
-    <string name="action_Bilateral">Bilateral filter</string>
-    <string name="action_AddNoise">Add noise</string>
+    <string name="action_Classify">To classify</string>
+	<string name="classification_delimiter_text_view">-</string>
+    <string name="face">Face</string>
+    <string name="faceless">No face detected</string>
+    
 </resources>

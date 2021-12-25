@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -43,6 +44,8 @@ import java.util.Map;
 
 import static org.opencv.core.Core.DFT_SCALE;
 import static org.opencv.core.CvType.CV_8U;
+import static org.opencv.imgproc.Imgproc.INTER_AREA;
+import static org.opencv.imgproc.Imgproc.resize;
 
 public class MainActivity extends AppCompatActivity {
     /** Tag for the {@link Log}. */
@@ -50,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
     private ImageView imageView;
     private Mat sampledImage=null;
+    private final String MODEL_FILE_NAME_MASK = "model.tflite";
+
+    Bitmap bmp;
     TensoflowWrapper wrapper = new TensoflowWrapper();
+    TensorflowLiteWrapper wrapperlite = new TensorflowLiteWrapper();
+    MaskDetectorWrapper maskwrapper = null;
 
 
     @Override
@@ -97,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
     };
     private void init(){
         wrapper.initTensorFlowAndLoadModel(getAssets());
+        wrapperlite.initModel(getAssets(), getResources().getStringArray(R.array.emotions));
+        maskwrapper = new MaskDetectorWrapper(getAssets(),
+                MODEL_FILE_NAME_MASK, getResources().getStringArray(R.array.mask));
 
     }
     @Override
@@ -179,9 +190,9 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.action_grayscale:
+            case R.id.action_Classify:
                 if(isImageLoaded()) {
-                    grayscale();
+                    classify();
                 }
                 return true;
             default:
@@ -210,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
     {
         try {
             InputStream ims = getContentResolver().openInputStream(selectedImageUri);
-            Bitmap bmp=BitmapFactory.decodeStream(ims);
+            bmp=BitmapFactory.decodeStream(ims);
             Mat rgbImage=new Mat();
             Utils.bitmapToMat(bmp, rgbImage);
             ims.close();
@@ -241,13 +252,21 @@ public class MainActivity extends AppCompatActivity {
             int height = size.y;
             double downSampleRatio= calculateSubSampleSize(rgbImage,width,height);
             sampledImage=new Mat();
-            Imgproc.resize(rgbImage, sampledImage, new
-                    Size(),downSampleRatio,downSampleRatio,Imgproc.INTER_AREA);
+            resize(rgbImage, sampledImage, new
+                    Size(),downSampleRatio,downSampleRatio, INTER_AREA);
             displayImage(sampledImage);
         } catch (Exception e) {
             Log.e(TAG, "Exception thrown: " + e+" "+Log.getStackTraceString(e));
             sampledImage=null;
         }
+    }
+
+    private Mat resizeImage(Mat image){
+        Mat resizeimage = new Mat();
+        Size scaleSize = new Size(wrapper.getInputSize(),wrapper.getInputSize());
+        resize(image, resizeimage, scaleSize , 0, 0, INTER_AREA);
+        return resizeimage;
+
     }
     private static double calculateSubSampleSize(Mat srcImage, int reqWidth,
                                                  int reqHeight) {
@@ -262,11 +281,17 @@ public class MainActivity extends AppCompatActivity {
         return inSampleSize;
     }
 
-    private void grayscale(){
-        Bitmap bitmap = Bitmap.createBitmap(sampledImage.cols(),
-                sampledImage.rows(),Bitmap.Config.RGB_565);
-        Utils.matToBitmap(sampledImage, bitmap);
-        //wrapper.classifyImage(bitmap);
+    private void classify(){
+        Mat im = resizeImage(sampledImage);
+        Bitmap bitmap = Bitmap.createBitmap(im.cols(),
+                im.rows(),Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(im, bitmap);
+        wrapper.classifyImage(bitmap);
+        wrapperlite.classifyEmotions(bmp);
+        maskwrapper.predict(bmp);
+        Log.i(TAG, wrapper.res + " "+ wrapperlite.res + maskwrapper.labs);
+
+
 
         displayImage(sampledImage);
     }
@@ -282,4 +307,8 @@ public class MainActivity extends AppCompatActivity {
     {
         imageView.setImageBitmap(bitmap);
     }
+
+
+
+
  }

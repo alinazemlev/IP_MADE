@@ -6,47 +6,8 @@
         app:showAsAction="never"
         android:title="@string/action_OpenGallery"/>
     <item
-        android:id="@+id/action_grayscale"
+        android:id="@+id/action_Classify"
         app:showAsAction="never"
-        android:title="@string/action_GrayScale"/>
-    <item
-        android:id="@+id/action_binary"
-        app:showAsAction="never"
-        android:title="@string/action_Binary"/>
-    <item
-        android:id="@+id/action_contrast"
-        app:showAsAction="never"
-        android:title="@string/action_Contrast"/>
-    <item
-        android:id="@+id/action_gamma"
-        app:showAsAction="never"
-        android:title="@string/action_Gamma"/>
-    <item
-        android:id="@+id/action_equalizehisto"
-        app:showAsAction="never"
-        android:title="@string/action_EqualizeHisto"/>
-    <item
-        android:id="@+id/action_blur"
-        app:showAsAction="never"
-        android:title="@string/action_blur"/>
-    <item
-        android:id="@+id/action_fft"
-        app:showAsAction="never"
-        android:title="@string/action_fft"/>
-    <item
-        android:id="@+id/action_fft_filter"
-        app:showAsAction="never"
-        android:title="@string/action_fft_filter"/>
-    <item
-        android:id="@+id/action_addnoise"
-        app:showAsAction="never"
-        android:title="@string/action_AddNoise"/>
-    <item
-        android:id="@+id/action_median"
-        app:showAsAction="never"
-        android:title="@string/action_Median"/>
-    <item
-        android:id="@+id/action_bilateral"
-        app:showAsAction="never"
-        android:title="@string/action_Bilateral"/>
+        android:title="@string/action_Classify"/>
+    
 </menu>
