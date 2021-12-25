@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -15,6 +16,7 @@ import androidx.exifinterface.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -24,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowMetrics;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -59,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     TensoflowWrapper wrapper = new TensoflowWrapper();
     TensorflowLiteWrapper wrapperlite = new TensorflowLiteWrapper();
     MaskDetectorWrapper maskwrapper = null;
+    KeyPointWrapper keywrapper = null;
+    private TextView textViewResult;
+
+
 
 
     @Override
@@ -68,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         imageView=(ImageView)findViewById(R.id.inputImageView);
+        textViewResult = (TextView) findViewById(R.id.textViewResult);
+        textViewResult.setMovementMethod(new ScrollingMovementMethod());
 
         if (!allPermissionsGranted()) {
             ActivityCompat.requestPermissions(this, getRequiredPermissions(), REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
@@ -108,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         wrapperlite.initModel(getAssets(), getResources().getStringArray(R.array.emotions));
         maskwrapper = new MaskDetectorWrapper(getAssets(),
                 MODEL_FILE_NAME_MASK, getResources().getStringArray(R.array.mask));
+
+
 
     }
     @Override
@@ -291,9 +302,11 @@ public class MainActivity extends AppCompatActivity {
         maskwrapper.predict(bmp);
         Log.i(TAG, wrapper.res + " "+ wrapperlite.res + maskwrapper.labs);
 
-
-
         displayImage(sampledImage);
+        textViewResult.setText(wrapper.res + " "+ wrapperlite.res + maskwrapper.labs);
+//        Toast.makeText(getApplicationContext(),
+//                wrapper.res + " "+ wrapperlite.res + maskwrapper.labs,
+//                Toast.LENGTH_LONG).show();
     }
 
     private void displayImage(Mat image)

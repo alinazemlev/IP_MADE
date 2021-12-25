@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,12 +17,31 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <ImageView
-        android:id="@+id/inputImageView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
-        android:scaleType="center"/>
+	<ImageView
+		android:id="@+id/inputImageView"
+		android:layout_width="match_parent"
+		android:layout_height="618dp"
+		android:layout_marginLeft="0dp"
+		android:layout_marginTop="0dp"
+		android:scaleType="center" />
 
-</LinearLayout>
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="113dp"
+		android:layout_below="@+id/inputImageView">
+
+
+		<TextView
+			android:id="@+id/textViewResult"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_alignParentBottom="true"
+			android:layout_marginBottom="0dp"
+			android:fadeScrollbars="false"
+			android:gravity="center"
+			android:maxLines="15"
+			android:scrollbars="vertical"
+			android:textColor="@android:color/black" />
+	</RelativeLayout>
+
+</RelativeLayout>
