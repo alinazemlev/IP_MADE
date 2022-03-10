@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FaceRecognition</string>
+    <string name="action_OpenGallery">Open Image File</string>
+    <string name="action_Classify">To classify</string>
+	<string name="classification_delimiter_text_view">-</string>
+    <string name="face">Face</string>
+    <string name="faceless">No face detected</string>
+    
+</resources>
